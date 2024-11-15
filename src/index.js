@@ -1,35 +1,46 @@
 const express = require('express'); 
 const morgan = require('morgan'); 
-const exphbs = require('express-handlebars'); // Necesario para utilizar el motor de plantillas handlebars 
+const exphbs = require('express-handlebars'); // Motor de plantillas Handlebars 
 const path = require('path'); 
+
 // Inicializaciones 
 const app = express(); 
- 
-require('dotenv').config() 
- 
+
+require('dotenv').config();  // Cargar variables de entorno
+
 // Ajustes del servidor 
 app.set('port', process.env.PORT || 4500); 
-app.set('views', path.join(__dirname, 'views')); // Configuracion de la ruta donde se encuentran las vistas 
-app.engine('.hbs', exphbs.engine({ 
-    defaultLayout: 'main', // Configuracion del layout principal
-    layoutsDir: path.join(app.get('views'), 'layouts'), // Configuracion de la ruta de los layouts 
-        extname: '.hbs' // Configura la extensión que tendran los archivos HandleBars 
-    })); 
-     
-    app.set('view engine', '.hbs'); // Configuracion para ejecutar el motor de plantillas 
-     
-    app.use(morgan('dev')); // Configurando el middleware morgan para visualizar que esta llegando al servidor 
-    app.use(express.urlencoded({extended: false})); // Sirve para poder aceptar datos desde formularios 
-     
-    // Configuracion de rutas 
-    app.use(require('./routes')); // Node automaticamente busca el index.js del modulo 
-    app.use('/estudiantes',require('./routes/estudiantes')); // Configuracion de ruta para estudiantes 
-    app.use('/carreras', require('./routes/carreras')); // Rutas para carreras
-     
-    // Archivos publicos (aca se coloca todo el código al cual el navegador puede acceder) 
-    app.use(express.static(path.join(__dirname, 'public'))); 
-     
-    // Iniciar el servidor  
-    app.listen(app.get('port'), () => { 
-        console.log('Servidor iniciado en el puerto: ', app.get('port')); 
-    }); 
+app.set('views', path.join(__dirname, 'views')); // Ruta donde se encuentran las vistas 
+
+// Configuración de Handlebars como motor de plantillas
+app.engine('.hbs', exphbs.engine({
+    defaultLayout: 'main',  // Layout principal
+    layoutsDir: path.join(app.get('views'), 'layouts'), // Ruta para los layouts
+    partialsDir: path.join(app.get('views'), 'partials'), // Ruta para los parciales
+    extname: '.hbs',  // Extensión de los archivos de plantillas
+    helpers: require('./lib/handlebars')  // Cargar los helpers personalizados
+}));
+
+app.set('view engine', '.hbs'); // Configura la extensión para usar Handlebars
+
+// Middleware de morgan para registrar las peticiones HTTP
+app.use(morgan('dev'));     
+
+// Middleware para aceptar datos de formularios
+app.use(express.urlencoded({ extended: false })); 
+
+// Configuración de rutas
+app.use(require('./routes'));  // Carga las rutas generales desde 'routes/index.js'
+app.use('/estudiantes', require('./routes/estudiantes')); // Ruta para estudiantes
+app.use('/carreras', require('./routes/carreras')); // Ruta para carreras
+app.use('/profesores', require('./routes/profesores')); // Ruta para profesores
+app.use('/materias', require('./routes/materias'));
+
+
+// Archivos estáticos (como CSS, imágenes, JS) accesibles desde el navegador
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Iniciar el servidor
+app.listen(app.get('port'), () => { 
+    console.log('Servidor iniciado en el puerto: ', app.get('port')); 
+});

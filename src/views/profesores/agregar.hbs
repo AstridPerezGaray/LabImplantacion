@@ -1,0 +1,43 @@
+<div class="container p-4">
+    <div class="row justify-content-center">
+        <h1>Agregar Profesor</h1>
+    </div>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            <form method="POST">
+                <!-- Nombre del Profesor -->
+                <div class="form-group">
+                    <input type="text" class="form-control" name="nombre" placeholder="Nombre del profesor" autofocus required />
+                </div>
+                <!-- Apellido del Profesor -->
+                <div class="form-group">
+                    <input type="text" class="form-control" name="apellido" placeholder="Apellido del profesor" required />
+                </div>
+                <!-- Fecha de Nacimiento -->
+                <div class="form-group">
+                    <input type="date" class="form-control" name="fecha_nacimiento" placeholder="Fecha de nacimiento" required />
+                </div>
+                <!-- Profesión -->
+                <div class="form-group">
+                    <input type="text" class="form-control" name="profesion" placeholder="Profesión del profesor" required />
+                </div>
+                <!-- Género -->
+                <div class="form-group">
+                    <select class="form-control" name="genero" required>
+                        <option value="">Seleccione el género</option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Femenino</option>
+                    </select>
+                </div>
+                <!-- Correo Electrónico -->
+                <div class="form-group">
+                    <input type="email" class="form-control" name="email" placeholder="Correo del profesor" required />
+                </div>
+                <!-- Botón para guardar -->
+                <div class="form-group">
+                    <button class="btn btn-success btn-block">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
