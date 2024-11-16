@@ -1,65 +1,65 @@
-const express = require('express'); 
-const morgan = require('morgan'); 
-const exphbs = require('express-handlebars'); // Motor de plantillas Handlebars 
-const path = require('path'); 
-const flash = require('connect-flash'); // Nos permite manejar mensajes en la sesion los cuales se guardan en memoria // y se borran luego de ser mostrados  
-const session = require('express-session'); // Permite manejar sesiones, por ejemplo, para almacenar datos en la 
-// memoria del servidor, tambien se puede almacenar en la base de datos. 
-const MySQLStore = require('express-mysql-session')(session); 
+const express = require('express');
+const morgan = require('morgan');
+const exphbs = require('express-handlebars'); // Motor de plantillas Handlebars
+const path = require('path');
+const flash = require('connect-flash'); // Manejo de mensajes en la sesión
+const session = require('express-session'); // Manejo de sesiones
+const MySQLStore = require('express-mysql-session')(session); // Almacenamiento de sesiones en MySQL
+const passport = require('passport'); // Autenticación de usuarios
 
-// Inicializaciones 
-const app = express(); 
+// Inicializaciones
+const app = express();
+require('dotenv').config();
+const { database } = require('./config/keys');
+require('./lib/passportConfig'); // Configuración de autenticación con Passport
 
-require('dotenv').config();  // Cargar variables de entorno
-
-const { database } = require('./config/keys'); 
-
-// Ajustes del servidor 
-app.set('port', process.env.PORT || 4500); 
-app.set('views', path.join(__dirname, 'views')); // Configuración de la ruta donde se encuentran las vistas 
-
-// Configuración de Handlebars como motor de plantillas
+// Ajustes del servidor
+app.set('port', process.env.PORT || 4500); // Definir el puerto del servidor
+app.set('views', path.join(__dirname, 'views')); // Ruta de las vistas
 app.engine('.hbs', exphbs.engine({
-    defaultLayout: 'main',  // Layout principal
-    layoutsDir: path.join(app.get('views'), 'layouts'), // Ruta para los layouts
-    partialsDir: path.join(app.get('views'), 'partials'), // Ruta para los parciales
-    extname: '.hbs',  // Extensión de los archivos de plantillas
-    helpers: require('./lib/handlebars')  // Cargar los helpers personalizados
+    defaultLayout: 'main', // Layout principal
+    layoutsDir: path.join(app.get('views'), 'layouts'), // Directorio de layouts
+    partialsDir: path.join(app.get('views'), 'partials'), // Directorio de vistas parciales
+    extname: '.hbs', // Extensión de los archivos Handlebars
+    helpers: require('./lib/handlebars') // Funciones de ayuda
 }));
+app.set('view engine', '.hbs'); // Configuración del motor de plantillas
 
-app.set('view engine', '.hbs'); // Configura la extensión para usar Handlebars
-
-// ===== MIDDLEWARES === 
+// Middlewares
 app.use(session({
-    secret: process.env.SESSION_KEY,
-    resave: false,
-    saveUninitialized: false,
-    store: new MySQLStore(database)
+    secret: process.env.SESSION_KEY, // Clave secreta para la sesión
+    resave: false, // No renovar la sesión
+    saveUninitialized: false, // No volver a inicializar la sesión si no se modifica
+    store: new MySQLStore(database) // Almacenamiento de la sesión en MySQL
 }));
+app.use(flash()); // Usar flash para mostrar mensajes
+app.use(morgan('dev')); // Usar morgan para registrar las peticiones
+app.use(express.urlencoded({ extended: false })); // Para procesar datos de formularios
+app.use(passport.initialize()); // Inicializar passport
+app.use(passport.session()); // Usar sesión para passport
 
-app.use(flash());
-app.use(morgan('dev')); // Configurando el middleware morgan para visualizar qué está llegando al servidor 
-app.use(express.urlencoded({extended: false })); // Sirve para poder aceptar datos desde formularios 
-
-// ==== VARIABLES GLOBALES ===== 
-app.use((request, response, next) => {
-    app.locals.success = request.flash('success');
-    app.locals.error = request.flash('error');
-    next();
+// Variables globales
+app.use((req, res, next) => {
+    // Hacer global el uso de flash y el usuario
+    app.locals.success = req.flash('success');
+    app.locals.error = req.flash('error');
+    app.locals.user = req.user; // Información del usuario autenticado
+    next(); // Continuar con la ejecución del siguiente middleware
 });
 
-// Configuración de rutas 
-app.use(require('./routes')); // Node automáticamente busca el index.js del módulo 
-app.use('/estudiantes',require('./routes/estudiantes')); // Configuración de ruta para estudiantes 
-app.use('/carreras', require('./routes/carreras')); // Configuración de ruta para carreras 
-app.use('/materias', require('./routes/materias')); // Configuración de ruta para materias 
-app.use('/profesores', require('./routes/profesores')); // Configuración de ruta para profesores 
-app.use('/grupos', require('./routes/grupos')); // Configuración de ruta para grupos 
+// Rutas
+app.use(require('./routes')); // Cargar las rutas principales
+app.use(require('./routes/authentication')); // Rutas de autenticación
+app.use('/estudiantes', require('./routes/estudiantes')); // Ruta para estudiantes
+app.use('/carreras', require('./routes/carreras')); // Ruta para carreras
+app.use('/materias', require('./routes/materias')); // Ruta para materias
+app.use('/profesores', require('./routes/profesores')); // Ruta para profesores
+app.use('/grupos', require('./routes/grupos')); // Ruta para grupos
 
-// Archivos públicos (aquí se coloca todo el código al cual el navegador puede acceder) 
-app.use(express.static(path.join(__dirname, 'public'))); 
+// Archivos públicos (archivos estáticos como CSS, JS, imágenes)
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Iniciar el servidor  
-app.listen(app.get('port'), () => { 
-    console.log('Servidor iniciado en el puerto: ', app.get('port')); 
+// Iniciar el servidor
+app.listen(app.get('port'), () => {
+    console.log('Servidor iniciado en el puerto:', app.get('port'));
 });

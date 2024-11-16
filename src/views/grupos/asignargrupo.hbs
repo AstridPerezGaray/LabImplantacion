@@ -1,41 +1,112 @@
-<div class="container p-4">
-    <div class="row justify-content-center">
-        <h1>Asignar grupo</h1>
-    </div>
-    <div class="row justify-content-center mt-4">
-        <div class="col-md-4">
-            <div class="form-group">
+<div class="container p-4"> 
+    <div class="row justify-content-center"> 
+        <h1 class="text-center text-primary">Asignar Grupo</h1> 
+    </div> 
+
+    <div class="row justify-content-center mt-4"> 
+        <div class="col-md-4"> 
+            <!-- Selección de Estudiantes -->
+            <div class="form-group mb-3">
+                <label for="estudiante" class="font-weight-bold">Seleccionar Estudiante</label>
                 <select class="form-control" id="estudiante">
                     <option value="" disabled>Seleccione una opción</option>
-                    {{#each lstEstudiantes}}
-                        <option value="{{idestudiante}}">{{nombre}}</option>
-                    {{/each}}
-                </select>
+                    {{#each lstEstudiantes}} 
+                    <option value="{{idestudiante}}">{{nombre}}</option> 
+                    {{/each}} 
+                </select> 
             </div>
-            <div hidden>
-                <input type="hidden" id="idgrupo" value="{{idgrupo}}" />
+
+            <!-- Campo oculto para ID del grupo -->
+            <div hidden> 
+                <input type="hidden" id="idgrupo" value="{{idgrupo}}" /> 
             </div>
-            <div class="form-group">
-                <button onclick="agregarEstudiante()" class="btn btn-success">Agregar</button>
+
+            <!-- Botón para agregar estudiante -->
+            <div class="form-group text-center mb-3">
+                <button onclick="agregarEstudiante()" class="btn btn-success btn-lg btn-block">Agregar</button>
             </div>
-        </div>
-        <div class="col-sm-12 mt-4">
-            <form action="/grupos/asignargrupo" method="POST" class="form-ajax">
+        </div> 
+
+        <!-- Tabla de Estudiantes Asignados -->
+        <div class="col-sm-12 mt-4"> 
+            <form action="/grupos/asignargrupo" method="POST" class="form-ajax"> 
                 <table class="table table-bordered table-striped">
-                    <thead class="thead-dark">
+                    <thead class="thead-light">
                         <tr>
                             <th scope="col">Código</th>
                             <th scope="col">Estudiante</th>
                             <th scope="col">Opciones</th>
                         </tr>
                     </thead>
-                    <tbody id="contenido_tabla"></tbody>
-                </table>
-                <div id="data" hidden></div>
-                <div class="form-group">
-                    <button class="btn btn-success btn-block" id="enviarDatos">Guardar</button>
-                </div>
-            </form>
-        </div>
-    </div>
+                    <tbody id="contenido_tabla"></tbody> 
+                </table> 
+                <div id="data" hidden></div> 
+                
+                <!-- Botón para guardar los cambios -->
+                <div class="form-group text-center mb-3">
+                    <button class="btn btn-success btn-block" id="enviarDatos">Guardar</button> 
+                </div> 
+            </form> 
+        </div> 
+    </div> 
 </div>
+
+<!-- Estilos internos para personalización -->
+<style>
+    body {
+        background-color: #f7f7f7;
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        margin-top: 50px;
+    }
+    h1 {
+        color: #0056b3;
+        font-weight: bold;
+        font-size: 2rem;
+    }
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-shadow: none;
+    }
+    .form-group label {
+        font-size: 1.1rem;
+    }
+    .form-group input,
+    .form-group select {
+        font-size: 1rem;
+        padding: 10px;
+    }
+    .table {
+        background-color: #fff;
+        border-radius: 8px;
+    }
+    .table-bordered {
+        border: 1px solid #ddd;
+    }
+    .table th, .table td {
+        padding: 12px;
+        text-align: center;
+    }
+    .thead-light {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+    }
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f2f2f2;
+    }
+    .table tbody tr:hover {
+        background-color: #e9ecef;
+        cursor: pointer;
+    }
+</style>

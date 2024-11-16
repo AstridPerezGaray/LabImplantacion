@@ -1,4 +1,5 @@
 const pool = require('../config/databaseController'); // Asegúrate de que la ruta sea correcta
+const { v4: uuidv4 } = require('uuid'); // Para generar un ID único
 
 module.exports = {
     // Consulta para obtener todos los estudiantes
@@ -33,9 +34,13 @@ module.exports = {
         }
     },
 
-    // Agregar un estudiante
+    // Agregar un estudiante (Genera el id automáticamente)
     agregarEstudiante: async (estudiante) => {
-        const { idestudiante, nombre, apellido, email, usuario, idcarrera } = estudiante;
+        const { nombre, apellido, email, usuario, idcarrera } = estudiante;
+
+        // Generamos un ID único para el estudiante utilizando UUID
+        const idestudiante = uuidv4();
+
         try {
             console.log('Datos para insertar:', { idestudiante, nombre, apellido, email, usuario, idcarrera });
 

@@ -1,12 +1,90 @@
 <div class="container p-4">
-    <h1>Editar Grupo</h1>
-    <form action="/grupos/editar/{{idgrupo}}" method="POST">
-        <div class="form-group">
-            <label for="nombregrupo">Nombre del Grupo</label>
-            <input type="text" id="nombregrupo" name="nombregrupo" class="form-control" value="{{grupo.nombregrupo}}" required />
+    <div class="row justify-content-center">
+        <h3 class="text-center text-info">Editar Grupo</h3>
+    </div>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            <form action="/grupos/editar/{{grupo.idgrupo}}" method="POST" class="p-4 border rounded shadow-sm bg-light">
+                <!-- Número del Grupo -->
+                <div class="form-group mb-3">
+                    <label for="num_grupo" class="font-weight-bold">Número del Grupo</label>
+                    <input type="text" id="num_grupo" class="form-control" name="num_grupo"
+                           value="{{grupo.num_grupo}}" placeholder="Ejemplo: A01" required />
+                </div>
+                
+                <!-- Año -->
+                <div class="form-group mb-3">
+                    <label for="anio" class="font-weight-bold">Año</label>
+                    <input type="number" id="anio" class="form-control" name="anio"
+                           value="{{grupo.anio}}" min="2000" max="2100" required />
+                </div>
+
+                <!-- Ciclo -->
+                <div class="form-group mb-3">
+                    <label for="ciclo" class="font-weight-bold">Ciclo</label>
+                    <input type="text" id="ciclo" class="form-control" name="ciclo" value="{{grupo.ciclo}}"
+                           placeholder="Ciclo" required />
+                </div>
+
+                <!-- ID de la Materia -->
+                <div class="form-group mb-3">
+                    <label for="idmateria" class="font-weight-bold">ID de la Materia</label>
+                    <input type="number" id="idmateria" class="form-control" name="idmateria"
+                           value="{{grupo.idmateria}}" min="1" required />
+                </div>
+
+                <!-- ID del Profesor -->
+                <div class="form-group mb-3">
+                    <label for="idprofesor" class="font-weight-bold">ID del Profesor</label>
+                    <input type="number" id="idprofesor" class="form-control" name="idprofesor"
+                           value="{{grupo.idprofesor}}" min="1" required />
+                </div>
+
+                <!-- Campo oculto para ID del Grupo -->
+                <input type="hidden" name="idgrupo" value="{{grupo.idgrupo}}" />
+
+                <!-- Botón de Actualizar -->
+                <div class="form-group text-center mb-3">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Actualizar</button>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-success">Actualizar</button>
-        </div>
-    </form>
+    </div>
 </div>
+
+<!-- Estilos internos para personalización -->
+<style>
+    body {
+        background-color: #f7f7f7;
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        margin-top: 50px;
+    }
+    h3 {
+        color: #17a2b8;
+        font-weight: bold;
+        font-size: 2rem;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-shadow: none;
+    }
+    .form-group label {
+        font-size: 1.1rem;
+    }
+    .form-group input,
+    .form-group select {
+        font-size: 1rem;
+        padding: 10px;
+    }
+</style>

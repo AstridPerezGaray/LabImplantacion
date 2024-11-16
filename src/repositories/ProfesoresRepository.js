@@ -1,71 +1,60 @@
-const pool = require('../config/databaseController'); // Conexión a la base de datos
+const pool = require('../config/databaseController');
 
 module.exports = {
-    // Obtener todos los profesores
-    obtenerTodosLosProfesores: async () => {
+
+    //Consulta para obtener todos los profesores
+    obtenerTodosLosProfesores: async() => {
         try {
-            const result = await pool.query('SELECT * FROM profesores');
-            return result; // Devuelve el resultado de la consulta
+            const result = await pool.query ('SELECT * FROM profesores');
+            return result;
         } catch (error) {
-            console.error('Ocurrió un problema al consultar la lista de profesores: ', error);
-            throw error; // Propaga el error para manejarlo en el controlador
+            console.error('Ocurrio un problema al obtener los estudiantes');
         }
     },
 
-    // Obtener un profesor por ID
-    obtenerProfesorPorId: async (idprofesor) => {
+    //Insertar un profesor
+
+    insertarProfesor: async(nuevoProfesor) => {
         try {
-            const result = await pool.query('SELECT * FROM profesores WHERE idprofesor = ?', [idprofesor]);
-            return result.length > 0 ? result[0] : null; // Devuelve el profesor si existe, de lo contrario null
+            const result = await pool.query ('INSERT INTO profesores SET ?', nuevoProfesor);
+            return result.insertId;
+
         } catch (error) {
-            console.error('Ocurrió un problema al consultar el profesor por ID: ', error);
-            throw error; // Propaga el error
+            console.error('Ocurrio un error al insertar los datos ',error)
+        }
+    },
+    //Actualizar profesor
+
+    actualizarProfesor: async(idprofesor,datosModificados) =>{ 
+        try {
+            const result = await pool.query ('UPDATE profesores SET ? WHERE idprofesor = ?',[datosModificados,idprofesor]);
+            return result.affectedRows > 0;
+
+        } catch (error) {
+            console.error('Ocurrio un problema al actualizar los datos',error)
+        }
+    },
+    // Actualizar un profesor por ID
+    obtenerProfesorPorid: async (idprofesor) => {
+        try {
+            const result = await pool.query ('SELECT * FROM profesores WHERE idprofesor = ?', [idprofesor]);
+            if(result.length > 0){
+                return result[0];
+            }else{
+                return null;
+            }
+        } catch (error) {
+            console.error('Error al actualizar el registro');
         }
     },
 
-    // Agregar un profesor
-    agregarProfesor: async (profesor) => {
-        const { nombre, apellido, fecha_nacimiento, profesion, genero, email } = profesor;
-        try {
-            console.log('Datos para insertar:', { nombre, apellido, fecha_nacimiento, profesion, genero, email });
-
-            const result = await pool.query(
-                'INSERT INTO profesores (nombre, apellido, fecha_nacimiento, profesion, genero, email) VALUES (?, ?, ?, ?, ?, ?)',
-                [nombre, apellido, fecha_nacimiento, profesion, genero, email]
-            );
-
-            console.log('Resultado de la inserción:', result);
-            return result.affectedRows > 0; // Retorna true si la inserción fue exitosa
-        } catch (error) {
-            console.error('Error durante la inserción en la base de datos:', error);
-            throw error;
-        }
-    },
-
-    // Actualizar un profesor
-    actualizarProfesor: async (idprofesor, profesor) => {
-        const { nombre, apellido, fecha_nacimiento, profesion, genero, email } = profesor;
-        try {
-            const result = await pool.query(
-                'UPDATE profesores SET nombre = ?, apellido = ?, fecha_nacimiento = ?, profesion = ?, genero = ?, email = ? WHERE idprofesor = ?',
-                [nombre, apellido, fecha_nacimiento, profesion, genero, email, idprofesor]
-            );
-    
-            return result.affectedRows > 0;  // Devuelve true si se actualizó alguna fila
-        } catch (error) {
-            console.error('Error al actualizar el profesor:', error);
-            throw error; // Re-lanza el error
-        }
-    },
-
-    // Eliminar un profesor
+    // Eliminar un profesor 
     eliminarProfesor: async (idprofesor) => {
         try {
             const result = await pool.query('DELETE FROM profesores WHERE idprofesor = ?', [idprofesor]);
-            return result.affectedRows > 0; // Retorna true si la eliminación fue exitosa
+            return result.affectedRows > 0;
         } catch (error) {
-            console.error('Error al eliminar el profesor:', error);
-            throw error;
+            console.error('Error al eliminar el registro', error);
         }
     }
-};
+}

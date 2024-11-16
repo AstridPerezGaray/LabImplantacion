@@ -4,25 +4,12 @@
     </div>
     <div class="row justify-content-center mt-4">
         <div class="col-md-6">
-            <form action="/profesores/modificar/{{profesor.idprofesor}}" method="POST" class="p-4 border rounded shadow-sm bg-light">
-                <!-- Campo para Código del Profesor -->
-                <div class="form-group">
-                    <label for="idprofesor" class="font-weight-bold">Código del Profesor</label>
-                    <input 
-                        type="text" 
-                        class="form-control" 
-                        id="idprofesor" 
-                        name="idprofesor" 
-                        placeholder="Ejemplo: PROF123" 
-                        value="{{profesor.idprofesor}}" 
-                        maxlength="50" 
-                        required 
-                        autofocus 
-                        readonly/>
-                </div>
+            <form action="/profesores/editar/{{profesor.idprofesor}}" method="POST" class="p-4 border rounded shadow-sm bg-light">
+                <!-- Campo oculto para Código del Profesor -->
+                <input type="hidden" name="idprofesor" value="{{profesor.idprofesor}}" />
 
                 <!-- Campo para Nombre -->
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label for="nombre" class="font-weight-bold">Nombre</label>
                     <input 
                         type="text" 
@@ -36,7 +23,7 @@
                 </div>
 
                 <!-- Campo para Apellido -->
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label for="apellido" class="font-weight-bold">Apellido</label>
                     <input 
                         type="text" 
@@ -50,7 +37,7 @@
                 </div>
 
                 <!-- Campo para Fecha de Nacimiento -->
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label for="fecha_nacimiento" class="font-weight-bold">Fecha de Nacimiento</label>
                     <input 
                         type="date" 
@@ -62,7 +49,7 @@
                 </div>
 
                 <!-- Campo para Profesión -->
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label for="profesion" class="font-weight-bold">Profesión</label>
                     <input 
                         type="text" 
@@ -76,7 +63,7 @@
                 </div>
 
                 <!-- Campo para Género -->
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label class="font-weight-bold">Género</label>
                     <div class="d-flex">
                         <div class="form-check me-3">
@@ -104,9 +91,8 @@
                     </div>
                 </div>
 
-
                 <!-- Campo para Correo -->
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label for="email" class="font-weight-bold">Correo Electrónico</label>
                     <input 
                         type="email" 
@@ -119,10 +105,50 @@
                 </div>
 
                 <!-- Botón para Guardar Cambios -->
-                <div class="form-group text-center">
-                    <button type="submit" class="btn btn-info btn-block">Guardar Cambios</button>
+                <div class="form-group text-center mb-3">
+                    <button type="submit" class="btn btn-info btn-lg btn-block">Guardar Cambios</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<!-- Estilos internos para personalización -->
+<style>
+    body {
+        background-color: #f7f7f7;
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        margin-top: 50px;
+    }
+    h1 {
+        color: #17a2b8;
+        font-weight: bold;
+        font-size: 2rem;
+    }
+    .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+    .btn-info:hover {
+        background-color: #138496;
+        border-color: #117a8b;
+    }
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-shadow: none;
+    }
+    .form-group label {
+        font-size: 1.1rem;
+    }
+    .form-group input,
+    .form-group select {
+        font-size: 1rem;
+        padding: 10px;
+    }
+    .form-check {
+        font-size: 1rem;
+    }
+</style>

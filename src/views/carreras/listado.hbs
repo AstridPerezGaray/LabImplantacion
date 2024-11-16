@@ -1,45 +1,153 @@
-<div class="container p-4">
-    <!-- Mostrar mensaje de éxito si existe -->
-    {{#if success}}
-        <div class="alert alert-success">{{success}}</div>
-    {{/if}}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Carreras</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+        }
 
-    <!-- Mostrar mensaje de error si existe -->
-    {{#if error}}
-        <div class="alert alert-danger">{{error}}</div>
-    {{/if}}
+        h3 {
+            font-weight: bold;
+            color: #0062cc;
+            font-size: 1.8rem;
+        }
 
-    <div class="col-sm-12">
-        <div class="row">
-            <div class="col-sm-6">
-                <h3>Listado Carreras</h3>
-            </div>
-            <div class="col-sm-6">
-                <a href="/carreras/agregar" class="btn btn-success d-block text-white">Agregar Carrera</a>
+        /* Botones */
+        .btn {
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 0.6rem 1.2rem;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-lg {
+            font-size: 1.25rem;
+        }
+
+        .btn-sm {
+            font-size: 0.875rem;
+        }
+
+        /* Efecto hover en los botones */
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Contenedor y tablas */
+        .table {
+            background-color: #fff;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+
+        .table-bordered {
+            border: 1px solid #ddd;
+        }
+
+        .table th, .table td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        .thead-light {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f2f2f2;
+        }
+
+        /* Efecto hover en las filas de la tabla */
+        .table tbody tr:hover {
+            background-color: #e9ecef;
+            cursor: pointer;
+        }
+
+        /* Espaciado entre columnas */
+        .col-sm-12, .col-sm-6 {
+            margin-bottom: 1rem;
+        }
+
+        /* Resaltado de texto */
+        .text-primary {
+            color: #0062cc;
+        }
+
+        /* Centrado del texto en los botones */
+        .text-right {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container p-4">
+        <!-- Mostrar mensaje de éxito si existe -->
+        {{#if success}}
+            <div class="alert alert-success">{{success}}</div>
+        {{/if}}
+
+        <!-- Mostrar mensaje de error si existe -->
+        {{#if error}}
+            <div class="alert alert-danger">{{error}}</div>
+        {{/if}}
+
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3 class="text-primary">Listado Carreras</h3>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <a href="/carreras/agregar" class="btn btn-success btn-lg text-white">Agregar Carrera</a>
+                </div>
             </div>
         </div>
+        <div class="col-sm-12 mt-4">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Carrera</th>
+                        <th scope="col">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each carreras}}
+                    <tr>
+                        <th scope="row">{{idcarrera}}</th>
+                        <td>{{carrera}}</td>
+                        <td>
+                            <a href="/carreras/editar/{{idcarrera}}" class="btn btn-primary btn-sm text-white">Modificar</a>
+                            <a href="/carreras/eliminar/{{idcarrera}}" class="btn btn-danger btn-sm text-white">Eliminar</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="col-sm-12 mt-4">
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Carreras</th>
-                    <th scope="col">Opciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each carreras}}
-                <tr>
-                    <th scope="row">{{idcarrera}}</th>
-                    <td>{{carrera}}</td>
-                    <td>
-                        <a href="/carreras/editar/{{idcarrera}}" class="btn btn-primary">Modificar</a>
-                        <a href="/carreras/eliminar/{{idcarrera}}" class="btn btn-danger text-white">Eliminar</a>
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </div>
-</div>
+</body>
+</html>

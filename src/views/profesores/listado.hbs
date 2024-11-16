@@ -1,17 +1,31 @@
 <div class="container p-4">
-    <div class="col-sm-12">
-        <div class="row">
-            <div class="col-sm-6">
-                <h3>Listado de Profesores</h3>
-            </div>
-            <div class="col-sm-6">
-                <a href="/profesores/agregar" class="btn btn-success d-block text-white">Agregar Profesor</a>
-            </div>
+    <div class="row justify-content-center">
+        <h3 class="text-center text-primary">Listado de Profesores</h3>
+    </div>
+
+    <!-- Mostrar alerta de éxito -->
+    {{#if success}}
+    <div class="alert alert-success">
+        {{success}}
+    </div>
+    {{/if}}
+
+    <!-- Mostrar alerta de error -->
+    {{#if error}}
+    <div class="alert alert-danger">
+        {{error}}
+    </div>
+    {{/if}}
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-sm-6 text-right">
+            <a href="/profesores/agregar" class="btn btn-success btn-lg text-white">Agregar Profesor</a>
         </div>
     </div>
+
     <div class="col-sm-12 mt-4">
         <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
+            <thead class="thead-light">
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Nombre</th>
@@ -32,8 +46,8 @@
                     <td>{{email}}</td>
                     <td>{{genero}}</td>
                     <td>
-                        <a href="/profesores/editar/{{idprofesor}}" class="btn btn-primary text-white">Modificar</a>
-                        <a href="/profesores/eliminar/{{idprofesor}}" class="btn btn-danger text-white">Eliminar</a>
+                        <a href="/profesores/editar/{{idprofesor}}" class="btn btn-primary btn-sm text-white">Modificar</a>
+                        <a href="/profesores/eliminar/{{idprofesor}}" class="btn btn-danger btn-sm text-white">Eliminar</a>
                     </td>
                 </tr>
                 {{/each}}
@@ -41,3 +55,66 @@
         </table>
     </div>
 </div>
+
+<!-- Estilos internos para personalización -->
+<style>
+    body {
+        background-color: #f7f7f7;
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        margin-top: 50px;
+    }
+    h3 {
+        color: #0056b3;
+        font-weight: bold;
+        font-size: 2rem;
+    }
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+    .table {
+        background-color: #fff;
+        border-radius: 8px;
+    }
+    .table-bordered {
+        border: 1px solid #ddd;
+    }
+    .table th, .table td {
+        padding: 12px;
+        text-align: center;
+    }
+    .thead-light {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+    }
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f2f2f2;
+    }
+    .table tbody tr:hover {
+        background-color: #e9ecef;
+        cursor: pointer;
+    }
+</style>

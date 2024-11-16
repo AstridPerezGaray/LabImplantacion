@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Mantenimiento</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #4f4f4f;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            color: #4f4f4f;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Estilos del contenedor principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        /* Estilos para las tarjetas */
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 1.5rem;
+            width: 22%;
+            min-width: 250px;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #007bff;
+            margin-bottom: 1rem;
+        }
+
+        .card-body {
+            padding: 1rem;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: #777;
+        }
+
+        /* Estilo de los botones */
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: 1rem;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        /* Estilos responsive */
+        @media (max-width: 768px) {
+            .card {
+                width: 48%;
+                margin-bottom: 1rem;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .btn {
+                font-size: 0.9rem;
+                padding: 0.7rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Bienvenido al Sistema de Mantenimiento</h1>
+
+    <div class="row">
+        <!-- Tarjeta Mantenimiento Estudiantes -->
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Mantenimiento Estudiantes</h3>
+                <p>Gestiona los estudiantes registrados en el sistema.</p>
+                <a href="/estudiantes" class="btn btn-primary">Ir a mantenimiento</a>
+            </div>
+        </div>
+
+        <!-- Tarjeta Mantenimiento Carreras -->
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Mantenimiento Carreras</h3>
+                <p>Gestiona las carreras disponibles en el sistema.</p>
+                <a href="/carreras" class="btn btn-primary">Ir a mantenimiento</a>
+            </div>
+        </div>
+
+        <!-- Tarjeta Mantenimiento Materias -->
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Mantenimiento Materias</h3>
+                <p>Administra las materias ofrecidas en cada carrera.</p>
+                <a href="/materias" class="btn btn-primary">Ir a mantenimiento</a>
+            </div>
+        </div>
+
+        <!-- Tarjeta Mantenimiento Profesores -->
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Mantenimiento Profesores</h3>
+                <p>Gestión de los profesores del sistema.</p>
+                <a href="/profesores" class="btn btn-primary">Ir a mantenimiento</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <!-- Tarjeta Mantenimiento Grupos -->
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Mantenimiento Grupos</h3>
+                <p>Organiza los grupos por materias.</p>
+                <a href="/grupos" class="btn btn-success">Ir a mantenimiento</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
