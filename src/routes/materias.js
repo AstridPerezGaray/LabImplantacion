@@ -6,16 +6,24 @@ const queries = require('../repositories/MateriasRepository'); // Repositorio de
 router.get('/', async (req, res) => {
     try {
         const materias = await queries.obtenerTodasLasMaterias();
-        res.render('materias/listado', { materias }); // Renderiza la vista con la lista de materias
+        res.render('materias/listado', { 
+            materias, 
+            success: req.flash('success'), // Mostrar mensaje de éxito
+            error: req.flash('error')      // Mostrar mensaje de error
+        });
     } catch (error) {
         console.error('Error obteniendo las materias:', error);
-        res.status(500).send('Error al cargar la lista de materias');
+        req.flash('error', 'Error al cargar la lista de materias');
+        res.redirect('/materias');
     }
 });
 
 // Endpoint para mostrar el formulario para agregar una nueva materia
 router.get('/agregar', (req, res) => {
-    res.render('materias/agregar'); // Renderiza el formulario para agregar una materia
+    res.render('materias/agregar', { 
+        success: req.flash('success'), 
+        error: req.flash('error') 
+    });
 });
 
 // Endpoint para agregar una nueva materia
@@ -23,21 +31,24 @@ router.post('/agregar', async (req, res) => {
     const { materia } = req.body;
 
     if (!materia) {
-        return res.render('materias/agregar', { error: 'El campo materia es obligatorio' });
+        req.flash('error', 'El campo materia es obligatorio');
+        return res.redirect('/materias/agregar');
     }
 
     try {
         const result = await queries.agregarMateria({ materia });
 
         if (result) {
-            console.log('Materia agregada con éxito');
+            req.flash('success', 'Materia agregada con éxito');
             res.redirect('/materias');
         } else {
-            res.render('materias/agregar', { error: 'No se pudo agregar la materia' });
+            req.flash('error', 'No se pudo agregar la materia');
+            res.redirect('/materias/agregar');
         }
     } catch (error) {
         console.error('Error al agregar materia:', error);
-        res.render('materias/agregar', { error: 'Hubo un error al agregar la materia' });
+        req.flash('error', 'Hubo un error al agregar la materia');
+        res.redirect('/materias/agregar');
     }
 });
 
@@ -47,12 +58,18 @@ router.get('/editar/:id', async (req, res) => {
     try {
         const materia = await queries.obtenerMateriaPorId(id);
         if (!materia) {
-            return res.status(404).send('Materia no encontrada');
+            req.flash('error', 'Materia no encontrada');
+            return res.redirect('/materias');
         }
-        res.render('materias/editar', { materia });
+        res.render('materias/editar', { 
+            materia,
+            success: req.flash('success'),
+            error: req.flash('error')
+        });
     } catch (error) {
         console.error('Error obteniendo la materia:', error);
-        res.status(500).send('Error al cargar la página de edición');
+        req.flash('error', 'Error al cargar la página de edición');
+        res.redirect('/materias');
     }
 });
 
@@ -65,14 +82,16 @@ router.post('/editar/:id', async (req, res) => {
         const result = await queries.actualizarMateria(id, { materia });
 
         if (result) {
-            console.log('Materia actualizada con éxito');
+            req.flash('success', 'Materia actualizada con éxito');
             res.redirect('/materias');
         } else {
-            res.render('materias/editar', { error: 'No se pudo actualizar la materia' });
+            req.flash('error', 'No se pudo actualizar la materia');
+            res.redirect(`/materias/editar/${id}`);
         }
     } catch (error) {
         console.error('Error al actualizar la materia:', error);
-        res.render('materias/editar', { error: 'Hubo un error al actualizar la materia' });
+        req.flash('error', 'Hubo un error al actualizar la materia');
+        res.redirect(`/materias/editar/${id}`);
     }
 });
 
@@ -83,13 +102,16 @@ router.get('/eliminar/:id', async (req, res) => {
         const result = await queries.eliminarMateria(id);
 
         if (result) {
-            console.log('Materia eliminada con éxito');
+            req.flash('success', 'Materia eliminada con éxito');
+        } else {
+            req.flash('error', 'No se pudo eliminar la materia');
         }
 
         res.redirect('/materias');
     } catch (error) {
         console.error('Error al eliminar la materia:', error);
-        res.status(500).send('Hubo un error al eliminar la materia');
+        req.flash('error', 'Hubo un error al eliminar la materia');
+        res.redirect('/materias');
     }
 });
 

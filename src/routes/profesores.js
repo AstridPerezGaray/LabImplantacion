@@ -9,7 +9,8 @@ router.get('/', async (request, response) => {
         response.render('profesores/listado', { profesores }); // Renderiza la vista con la lista de profesores
     } catch (error) {
         console.error('Error obteniendo profesores:', error);
-        response.status(500).send('Error al cargar la lista de profesores');
+        request.flash('error', 'Error al obtener la lista de profesores');
+        response.redirect('/profesores');
     }
 });
 
@@ -24,26 +25,28 @@ router.post('/agregar', async (request, response) => {
 
     // Validar campos obligatorios
     if (!nombre || !apellido || !fecha_nacimiento || !profesion || !genero || !email) {
-        return response.render('profesores/agregar', { error: 'Todos los campos son obligatorios' });
+        request.flash('error', 'Todos los campos son obligatorios');
+        return response.redirect('/profesores/agregar');
     }
 
     try {
         const result = await queries.agregarProfesor({ nombre, apellido, fecha_nacimiento, profesion, genero, email });
 
         if (result) {
-            console.log('Profesor agregado con éxito');
+            request.flash('success', 'Profesor agregado con éxito');
             response.redirect('/profesores');
         } else {
-            response.render('profesores/agregar', { error: 'No se pudo agregar el profesor' });
+            request.flash('error', 'No se pudo agregar el profesor');
+            response.redirect('/profesores/agregar');
         }
     } catch (error) {
         console.error('Error al agregar profesor:', error);
-        response.render('profesores/agregar', { error: 'Hubo un error al agregar el profesor' });
+        request.flash('error', 'Hubo un error al agregar el profesor');
+        response.redirect('/profesores/agregar');
     }
 });
 
 // Endpoint para mostrar el formulario de edición
-// Endpoint para mostrar el formulario de edición del profesor
 router.get('/editar/:id', async (req, res) => {
     const { id } = req.params;
     try {
@@ -67,37 +70,19 @@ router.post('/modificar/:id', async (req, res) => {
         const result = await queries.actualizarProfesor(id, { nombre, apellido, fecha_nacimiento, profesion, genero, email });
 
         if (result) {
-            console.log('Profesor actualizado con éxito');
-            res.redirect('/profesores');  // Redirige al listado de profesores
-        } else {
-            res.render('profesores/editar', { error: 'No se pudo actualizar el profesor' });
-        }
-    } catch (error) {
-        console.error('Error al actualizar el profesor:', error);
-        res.render('profesores/editar', { error: 'Hubo un error al actualizar el profesor' });
-    }
-});
-
-
-// Endpoint para actualizar un profesor
-router.post('/editar/:id', async (req, res) => {
-    const { id } = req.params; // ID del profesor
-    const { nombre, apellido, fecha_nacimiento, profesion, genero, email } = req.body;
-
-    try {
-        const result = await queries.actualizarProfesor(id, { nombre, apellido, fecha_nacimiento, profesion, genero, email });
-
-        if (result) {
-            console.log('Profesor actualizado con éxito');
+            req.flash('success', 'Profesor actualizado con éxito');  // Cambié 'request' por 'req'
             res.redirect('/profesores');
         } else {
-            res.render('profesores/editar', { error: 'No se pudo actualizar el profesor' });
+            req.flash('error', 'No se pudo actualizar el profesor');  // Cambié 'request' por 'req'
+            res.redirect('/profesores/editar/' + id);
         }
     } catch (error) {
         console.error('Error al actualizar el profesor:', error);
-        res.render('profesores/editar', { error: 'Hubo un error al actualizar el profesor' });
+        req.flash('error', 'Hubo un error al actualizar el profesor');  // Cambié 'request' por 'req'
+        res.redirect('/profesores/editar/' + id);
     }
 });
+
 
 // Endpoint para eliminar un profesor
 router.get('/eliminar/:id', async (request, response) => {
@@ -106,13 +91,16 @@ router.get('/eliminar/:id', async (request, response) => {
         const result = await queries.eliminarProfesor(id);
 
         if (result) {
-            console.log('Profesor eliminado con éxito');
+            request.flash('success', 'Profesor eliminado correctamente');
+        } else {
+            request.flash('error', 'No se pudo eliminar el profesor');
         }
 
         response.redirect('/profesores');
     } catch (error) {
         console.error('Error al eliminar el profesor:', error);
-        response.status(500).send('Hubo un error al eliminar el profesor');
+        request.flash('error', 'Hubo un error al eliminar el profesor');
+        response.redirect('/profesores');
     }
 });
 

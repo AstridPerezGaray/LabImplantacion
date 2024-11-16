@@ -1,4 +1,4 @@
-const pool = require('../config/databaseController'); // Conexión a la BD
+const pool = require('../config/databaseController'); // Conexión a la base de datos
 
 module.exports = {
     // Obtener todos los profesores
@@ -46,21 +46,17 @@ module.exports = {
     actualizarProfesor: async (idprofesor, profesor) => {
         const { nombre, apellido, fecha_nacimiento, profesion, genero, email } = profesor;
         try {
-            // Ejecuta la consulta de actualización
             const result = await pool.query(
                 'UPDATE profesores SET nombre = ?, apellido = ?, fecha_nacimiento = ?, profesion = ?, genero = ?, email = ? WHERE idprofesor = ?',
                 [nombre, apellido, fecha_nacimiento, profesion, genero, email, idprofesor]
             );
     
-            // Verifica si se actualizó al menos una fila
-            return result.affectedRows > 0;  // Devuelve true si se actualizó alguna fila, de lo contrario false
+            return result.affectedRows > 0;  // Devuelve true si se actualizó alguna fila
         } catch (error) {
-            // Manejo de errores si la consulta falla
             console.error('Error al actualizar el profesor:', error);
-            throw error; // Re-lanza el error para manejarlo en otro lugar
+            throw error; // Re-lanza el error
         }
     },
-    
 
     // Eliminar un profesor
     eliminarProfesor: async (idprofesor) => {

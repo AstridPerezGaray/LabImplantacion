@@ -1,0 +1,22 @@
+<div class="container p-4">
+    <h1>Listado de Grupos</h1>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre del Grupo</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each grupos}}
+            <tr>
+                <td>{{this.nombregrupo}}</td>
+                <td>
+                    <a href="/grupos/editar/{{this.idgrupo}}" class="btn btn-primary">Editar</a>
+                    <a href="/grupos/eliminar/{{this.idgrupo}}" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>

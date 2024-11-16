@@ -5,13 +5,13 @@
     <div class="row justify-content-center mt-4">
        <div class="col-md-4">
         <form method="POST" action="/carreras/editar/{{carrera.idcarrera}}">
+            <!-- Campo oculto para idcarrera -->
+            <input type="hidden" name="idcarrera" value="{{carrera.idcarrera}}" />
+            
             <div class="form-group">
-                <input type="text" class="form-control" name="idcarrera" 
-                placeholder="ID de la carrera" value="{{carrera.idcarrera}}" autofocus />
-            </div>
-            <div class="form-group">
+                <label for="nombreCarrera">Nombre de la carrera</label>
                 <input type="text" class="form-control" name="carrera" 
-                placeholder="Nombre de carrera" value="{{carrera.carrera}}" />
+                placeholder="Nombre de carrera" value="{{carrera.carrera}}" required />
             </div>
             <div class="form-group">
                 <button class="btn btn-success btn-block">Guardar</button>
